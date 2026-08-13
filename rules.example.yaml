@@ -1,0 +1,41 @@
+# Example config for url-declutter
+# Usage: url-declutter urls.txt --config rules.example.yaml -o out.txt --stats
+#
+# Default mode already has generic heuristics.
+# Use this file to add domain-specific rules for better results on a known target.
+
+keep: 2
+
+rules:
+  # --- reusable generic patterns ---
+
+  - name: sitemaps
+    match: '.*/.*sitemap.*\.xml'
+    group: 'sitemap'
+
+  - name: shortlinks
+    match: 'https?://[^/]+/[A-Za-z0-9_-]{4,12}$'
+    group: 'shortlink'
+    keep: 1
+
+  - name: category
+    match: '/(?:category|categories|cat|tag|tags|brand|brands|collection)/([^/?]+)'
+    group: 'listing:{1}'
+
+  - name: product-id
+    match: '/(?:product|item|p|post|article|user|u)/([0-9a-fA-F-]{6,})'
+    group: 'detail-id'
+
+  - name: utm-noise
+    match: '\?(?:.*(?:utm_|fbclid|gclid|page=|sort=))'
+    group: 'query-noise'
+
+  # --- example domain-specific (edit for your target) ---
+  #
+  # - name: my-categories
+  #   match: 'shop\.example\.com/category/([^/?]+)'
+  #   group: 'shop:cat:{1}'
+  #
+  # - name: my-locale-pages
+  #   match: 'example\.com/(?:en|de|fr|id)/about'
+  #   group: 'example:about'

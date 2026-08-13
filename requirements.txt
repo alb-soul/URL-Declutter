@@ -1,0 +1,3 @@
+# Optional — only needed when using --config
+# Default intelligent mode works with zero dependencies (Python 3.8+)
+PyYAML>=6.0
